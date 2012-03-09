@@ -1,0 +1,6 @@
+build
+fifo2pty
+native/.cproject
+native/.project
+Serial2pty.iml
+native/libpty.so

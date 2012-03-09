@@ -108,6 +108,8 @@ public class Serial2Pty extends VisPlugin implements MotePlugin {
       inPipeStream = pty.getPtInputStream();
       outPipeStream = pty.getPtOutputStream();
       ptyDeviceName = pty.getDeviceName();
+      
+      Serial2PtyRegistry.addSerialPort(ptyDeviceName, mote.getID());
 
       for (MoteInterface intf: mote.getInterfaces().getInterfaces()) {
           if (intf instanceof SerialPort) {
@@ -181,7 +183,7 @@ public class Serial2Pty extends VisPlugin implements MotePlugin {
       pipeListener.start();
 
       // Add GUI labels
-      setLayout(new GridLayout(2, 2));
+      setLayout(new GridLayout(3, 2));
 
 
       add(new JLabel("moteID:"));
@@ -190,8 +192,11 @@ public class Serial2Pty extends VisPlugin implements MotePlugin {
       add(new JLabel("Serial Device:"));
       add(new JLabel(ptyDeviceName));
 
+      add(new JLabel("Discovery Server:"));
+      add(new JLabel("Port " + String.valueOf(SerialPortDiscoveryServer.LISTEN_PORT)));
 
-      setSize(250, 75);
+      //setSize(250, 75);
+      setSize(250, 100);
 
       try {
         setSelected(true);
@@ -201,6 +206,8 @@ public class Serial2Pty extends VisPlugin implements MotePlugin {
   }
 
   public void closePlugin() {
+
+      Serial2PtyRegistry.removeSerialPort(pty.getDeviceName());
 
       // Stop listening to serial port
       if (serialPort != null && serialObserver != null) {
