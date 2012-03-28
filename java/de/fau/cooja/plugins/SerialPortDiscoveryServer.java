@@ -35,11 +35,11 @@ public class SerialPortDiscoveryServer extends Thread {
                 
                 for (String port : serialPorts) {
                     //_logger.debug("sending port " + port);
-                    cos.writeChars(port);
-                    cos.writeChar('\n');
+                    cos.writeBytes(port + "\n");
                 }
                 cos.flush();
 
+                client.shutdownOutput();
                 client.close();
             }
         } catch (IOException e) {
