@@ -165,11 +165,13 @@ public class Serial2Pty extends VisPlugin implements MotePlugin {
                           logger.debug("Forwarding to serial: " + (char) byte_read);
                           //logger.debug((byte) byte_read);
                           serialPort.writeByte((byte) byte_read);
-			              if (++i >= 128) {
+			              if (++i >= 64) {
+                              logger.debug("Enough work done. Sleeping one second." );
 			                  // Wait a bit each 128th byte to give sensor node time for processing
 			                  i = 0;
 			                  Thread.sleep(1000);
-			              }
+                          }
+                          serialPort.flushInput();
                       }
                       inPipeStream.close();
                       inPipeStream = null;
