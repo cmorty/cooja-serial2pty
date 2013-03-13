@@ -45,6 +45,7 @@ package de.fau.cooja.plugins;
 
 import java.awt.GridLayout;
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
@@ -125,14 +126,23 @@ public class Serial2Pty extends VisPlugin implements MotePlugin {
       // Separate thread for initializing out pipe. Otherwise FileOutputStream
       // constructor would block Cooja until the other end of the pipe is opened
       outPipeInitializer = new Thread(new Runnable() {
+
+          String _serialData;
+
           public void run() {
               serialPort.addSerialDataObserver(serialObserver = new Observer() {
                   public void update(Observable obs, Object obj) {
                       try {
                           outPipeStream.write(serialPort.getLastSerialData());
                           outPipeStream.flush();
-                          logger.debug("Forwarding from serial: "
-                          + (char)serialPort.getLastSerialData());
+
+                          _serialData += (char)serialPort.getLastSerialData();
+                          
+                          if (_serialData.endsWith("\n") || _serialData.length() > 512) {
+                              _serialData = _serialData.substring(0, _serialData.length() - 1);
+                              logger.debug("Forwarding from serial: " + _serialData);
+                              _serialData = "";
+                          }
                       } catch (IOException e) {
                           logger.error("Error when writing to out pipe: " + e);
   

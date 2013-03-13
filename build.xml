@@ -5,7 +5,7 @@
   <property name="native" location="native"/>
   <property name="build" location="build"/>
   <property name="lib" location="lib"/>
-  <property name ="contiki_base" value="../../contiki" />
+  <property name ="contiki_base" value="../../../../../contiki" />
   <property name="cooja_jar" value="${contiki_base}/tools/cooja/dist/cooja.jar"/>
   <property name="cooja_mspsim_jar" value="${contiki_base}/tools/cooja/apps/mspsim/lib/cooja_mspsim.jar"/>
 
@@ -56,7 +56,7 @@
   </target>
   
   <target name="compile-native" depends="copy-native-includes">
-    <exec executable="make" dir="${native}" failonerror="true" />
+    <exec executable="make" dir="${native}" failonerror="true" newenvironment="false" />
     <copy todir="${lib}">
       <fileset dir="${native}">
         <include name="*.so" />

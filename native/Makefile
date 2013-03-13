@@ -1,12 +1,11 @@
-JDK_HOME = /etc/java-config-2/current-system-vm
-CFLAGS   = -I $(JDK_HOME)/include -I $(JDK_HOME)/include/linux
+CFLAGS   = -I $(JAVA_HOME)/include -I $(JAVA_HOME)/include/linux
 JNI_NAME = pty
 PROGNAME=libpty.so
 
 SRCS = pty.c
 
 
-CFLAGS= -Wall
+CFLAGS += -Wall
 
 all:
 	gcc $(CFLAGS) -o $(PROGNAME) -fPIC -shared $(SRCS) -lc
