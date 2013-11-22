@@ -45,15 +45,17 @@ package de.fau.cooja.plugins;
 
 import java.awt.GridLayout;
 import java.io.*;
-import java.util.LinkedList;
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.*;
-import org.apache.log4j.Logger;
+import java.util.Vector;
 
-import se.sics.cooja.*;
-import se.sics.cooja.GUI;
-import se.sics.cooja.interfaces.SerialPort;
+import javax.swing.*;
+
+import org.apache.log4j.Logger;
+import org.contikios.cooja.*;
+import org.contikios.cooja.interfaces.SerialPort;
+import org.jdom.Element;
 
 @ClassDescription("Serial 2 Pty")
 @PluginType(PluginType.MOTE_PLUGIN)
@@ -76,13 +78,13 @@ public class Serial2Pty extends VisPlugin implements MotePlugin {
 
   private Observer serialObserver;
 
-  public Serial2Pty(Mote moteToView, Simulation simulation, GUI gui) {
-      super("Serial 2 Pty (" + moteToView + ")", gui);
+  public Serial2Pty(Mote moteToView, Simulation simulation, Cooja cooja) {
+      super("Serial 2 Pty (" + moteToView + ")", cooja);
       mote = moteToView;
       String pluginPath = "";
 
       // where is this plugin installed?
-      COOJAProject[] projects = gui.getProjects();
+      COOJAProject[] projects = cooja.getProjects();
       for (int i=0; i<projects.length; ++i) {
 
           if (projects[i].getDescription() != null &&
@@ -251,5 +253,12 @@ public class Serial2Pty extends VisPlugin implements MotePlugin {
   public Mote getMote() {
     return mote;
   }
+  
+  public boolean setConfigXML(Collection<Element> configXML, boolean visAvailable) {
+    return true;
+  }
 
+  public Collection<Element> getConfigXML() {
+    return new Vector<Element>();
+  }
 }
