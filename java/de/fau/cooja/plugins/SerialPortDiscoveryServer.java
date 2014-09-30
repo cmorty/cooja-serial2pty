@@ -24,8 +24,8 @@ public class SerialPortDiscoveryServer extends Thread {
             return;
         }
 
-        try {
-            while(true) {
+        while(true) {
+            try {
                 Socket client = serverSocket.accept();
                 _logger.info("new Connection " + client + " established.");
 
@@ -41,9 +41,9 @@ public class SerialPortDiscoveryServer extends Thread {
 
                 client.shutdownOutput();
                 client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
