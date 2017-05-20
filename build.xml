@@ -6,6 +6,7 @@
   <property name="build" location="build"/>
   <property name="lib" location="lib"/>
   <property name ="contiki_base" value="../../../../../contiki" />
+  <property name="log4j_jar" value="${contiki_base}/tools/cooja/dist/lib/log4j.jar"/> 
   <property name="cooja_jar" value="${contiki_base}/tools/cooja/dist/cooja.jar"/>
   <property name="cooja_mspsim_jar" value="${contiki_base}/tools/cooja/apps/mspsim/lib/cooja_mspsim.jar"/>
 
@@ -19,6 +20,7 @@
     <javac srcdir="${java}" destdir="${build}" debug="on">
       <classpath>
         <pathelement path="."/>
+        <pathelement location="${log4j_jar}"/>
         <pathelement location="${cooja_jar}"/>
         <pathelement location="${cooja_mspsim_jar}"/>
       </classpath>
